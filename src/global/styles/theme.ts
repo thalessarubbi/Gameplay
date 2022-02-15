@@ -25,3 +25,12 @@ export const theme ={
     text500: 'Inter_500Medium',
   }
 }
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList {
+      Home: undefined;
+      SignIn: undefined;
+    }
+  }
+}

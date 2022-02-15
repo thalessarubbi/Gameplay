@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font'
 
 import { StatusBar } from 'react-native';
 import { Background } from './src/components/Background';
-import { Home } from './src/screens/Home';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,7 +26,7 @@ export default function App() {
         barStyle="light-content"
         backgroundColor="transparent"
         translucent />
-      <Home />
+      <Routes />
     </Background>
   );
 }
