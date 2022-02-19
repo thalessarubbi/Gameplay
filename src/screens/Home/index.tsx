@@ -51,11 +51,15 @@ export function Home() {
     navigate("AppointmentDetails")
   }
 
+  function handleCreateAppointmentPressed() {
+    navigate("AppointmentCreate")
+  }
+
   return (
     <Background>
       <View style={styles.header}>
         <Profile />
-        <ButtonAdd />
+        <ButtonAdd onPress={handleCreateAppointmentPressed} />
       </View>
 
       <CategorySelect

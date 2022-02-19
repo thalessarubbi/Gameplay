@@ -33,6 +33,7 @@ declare global {
       Home: undefined;
       SignIn: undefined;
       AppointmentDetails: undefined
+      AppointmentCreate: undefined
     }
   }
 }
