@@ -6,29 +6,36 @@ import { RectButton } from "react-native-gesture-handler";
 import { Background } from "../../components/Background";
 import { Header } from "../../components/Header";
 import { CategorySelect } from "../../components/CategorySelect";
-
-import { theme } from "../../global/styles/theme";
-import { styles } from "./styles";
 import { SmallInput } from "../../components/SmallInput";
 import { TextArea } from "../../components/TextArea";
 import { Button } from "../../components/Button";
 import { ModalView } from "../../components/ModalView";
-import { Guilds } from "../Guilds";
-import { GuildProps } from "../../components/Appointment";
+import { GuildProps, Guilds } from "../Guilds";
 import { GuildIcon } from "../../components/GuilIcon";
+
+import { theme } from "../../global/styles/theme";
+import { styles } from "./styles";
 
 export function AppointmentCreate() {
   const [category, setCategory] = useState('')
   const [openGuildsModal, setOpenGuildsModal] = useState(false)
   const [guild, setGuild] = useState<GuildProps>()
 
-  function handleOpenGuilds(){
+  function handleOpenGuilds() {
     setOpenGuildsModal(true)
   }
 
-  function handleGuildSelected(guildSelected: GuildProps){
+  function handleCloseGuilds() {
+    setOpenGuildsModal(false)
+  }
+
+  function handleGuildSelected(guildSelected: GuildProps) {
     setGuild(guildSelected)
     setOpenGuildsModal(false)
+  }
+
+  function handleGategorySelected(categoryId: string) {
+    setCategory(categoryId)
   }
 
   return (
@@ -36,7 +43,8 @@ export function AppointmentCreate() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <ScrollView>
+      <Background>
+        <ScrollView>
           <Header
             title="Detalhes"
           />
@@ -50,7 +58,7 @@ export function AppointmentCreate() {
 
           <CategorySelect
             hasCheckBox
-            setCategory={setCategory}
+            setCategory={handleGategorySelected}
             categorySelected={category}
           />
 
@@ -74,7 +82,7 @@ export function AppointmentCreate() {
 
             <View style={styles.field}>
               <View>
-                <Text style={styles.label}>
+                <Text style={[styles.label, { marginBottom: 12 }]}>
                   Dia e mês
                 </Text>
 
@@ -88,8 +96,8 @@ export function AppointmentCreate() {
               </View>
 
               <View>
-                <Text style={styles.label}>
-                  Horário
+                <Text style={[styles.label, { marginBottom: 12 }]}>
+                  Hora e minuto
                 </Text>
 
                 <View style={styles.column}>
@@ -123,9 +131,10 @@ export function AppointmentCreate() {
               <Button title="Agendar" />
             </View>
           </View>
-      </ScrollView>
+        </ScrollView>
+      </Background>
 
-      <ModalView visible={openGuildsModal}>
+      <ModalView visible={openGuildsModal} closeModal={handleCloseGuilds}>
         <Guilds handleGuildSelected={handleGuildSelected} />
       </ModalView>
     </KeyboardAvoidingView>

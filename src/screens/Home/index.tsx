@@ -14,6 +14,7 @@ import { styles } from "./styles";
 
 export function Home() {
   const { navigate } = useNavigation()
+
   const [category, setCategory] = useState('')
 
   const appointments = [
@@ -67,22 +68,21 @@ export function Home() {
         setCategory={handleCategorySelected}
       />
 
-      <View style={styles.content}>
-        <ListHeader title="Partidas agendadas" subtitle="Total 6" />
+      <ListHeader title="Partidas agendadas" subtitle="Total 6" />
 
-        <FlatList
-          data={appointments}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          style={styles.matches}
-          ItemSeparatorComponent={() => <ListDivider />}
-          renderItem={({ item }) =>
-            <Appointment
-              onPress={handleAppointmentsDetails}
-              data={item} />
-          }
-        />
-      </View>
+      <FlatList
+        data={appointments}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+        style={styles.matches}
+        ItemSeparatorComponent={() => <ListDivider />}
+        contentContainerStyle={{ paddingBottom: 69 }}
+        renderItem={({ item }) =>
+          <Appointment
+            onPress={handleAppointmentsDetails}
+            data={item} />
+        }
+      />
     </Background>
   )
 }

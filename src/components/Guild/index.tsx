@@ -2,8 +2,9 @@ import React from "react";
 import { Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import { Feather } from '@expo/vector-icons'
 
-import { GuildProps } from "../Appointment";
+import { GuildProps } from "../../screens/Guilds";
 import { GuildIcon } from "../GuilIcon";
+
 import { styles } from "./styles";
 import { theme } from "../../global/styles/theme";
 
