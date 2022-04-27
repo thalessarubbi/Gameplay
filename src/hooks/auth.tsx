@@ -1,9 +1,12 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 import * as AuthSession from 'expo-auth-session'
+import AsyncStorageLib from "@react-native-async-storage/async-storage";
 
 import { SCOPE, CLIENT_ID, CDN_IMAGE, REDIRECT_URI, RESPONSE_TYPE } from '../configs'
+
 import { api } from "../services/api";
+import { COLLECTION_USERS } from '../configs/database'
 
 type User = {
   id: string
@@ -26,7 +29,8 @@ type AuthProviderProps = {
 
 type AuthorizationResponse = AuthSession.AuthSessionResult & {
   params: {
-    access_token: string
+    access_token?: string
+    error?: string
   }
 }
 
@@ -44,7 +48,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const { type, params } = await AuthSession.startAsync({ authUrl }) as AuthorizationResponse
 
-      if (type === 'success') {
+      if (type === 'success' && !params.error) {
         api.defaults.headers.authorization = `Bearer ${params.access_token}`
 
         const userInfo = await api.get('/users/@me')
@@ -52,19 +56,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const firstName = userInfo.data.username.split(' ')[0]
         userInfo.data.avatar = `${CDN_IMAGE}/avatars/${userInfo.data.id}/${userInfo.data.avatar}.png`
 
-        setUser({
+        const userData = {
           ...userInfo.data,
           firstName,
           token: params.access_token
-        })
-        setLoading(false)
-      } else {
-        setLoading(false)
+        }
+
+        AsyncStorageLib.setItem(COLLECTION_USERS, JSON.stringify(userData))
+        setUser(userData)
       }
     } catch (error) {
       throw new Error('Não foi possível autenticar')
+    } finally {
+      setLoading(false)
     }
   }
+
+  async function loadUserStorageData() {
+    const storage = await AsyncStorageLib.getItem(COLLECTION_USERS)
+
+    if (storage) {
+      const userLogged = JSON.parse(storage) as User
+      api.defaults.headers.authorization = `Bearer ${userLogged.token}`
+
+      setUser(userLogged)
+    }
+  }
+
+  useEffect(() => {
+    loadUserStorageData()
+  }, [])
 
   return (
     <AuthContext.Provider value={{

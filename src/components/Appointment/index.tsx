@@ -4,7 +4,7 @@ import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 
 import { categories } from "../../utils/categories";
 import { GuildProps } from "../../screens/Guilds";
-import { GuildIcon } from "../GuilIcon";
+import { GuildIcon } from "../GuildIcon";
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles/theme";

@@ -11,7 +11,7 @@ import { TextArea } from "../../components/TextArea";
 import { Button } from "../../components/Button";
 import { ModalView } from "../../components/ModalView";
 import { GuildProps, Guilds } from "../Guilds";
-import { GuildIcon } from "../../components/GuilIcon";
+import { GuildIcon } from "../../components/GuildIcon";
 
 import { theme } from "../../global/styles/theme";
 import { styles } from "./styles";
@@ -65,7 +65,7 @@ export function AppointmentCreate() {
           <View style={styles.form}>
             <RectButton onPress={handleOpenGuilds}>
               <View style={styles.select}>
-                {guild?.icon ? <GuildIcon /> : <View style={styles.image} />}
+                {guild?.icon ? <GuildIcon guildId={guild.id} iconId={guild.icon} /> : <View style={styles.image} />}
 
                 <View style={styles.selectBody}>
                   <Text style={styles.label}>

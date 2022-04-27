@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, TouchableOpacityProps, View } from "react-nativ
 import { Feather } from '@expo/vector-icons'
 
 import { GuildProps } from "../../screens/Guilds";
-import { GuildIcon } from "../GuilIcon";
+import { GuildIcon } from "../GuildIcon";
 
 import { styles } from "./styles";
 import { theme } from "../../global/styles/theme";
@@ -29,7 +29,7 @@ export function Guild({ data, handleGuildSelected, ...rest }: Props) {
       onPress={() => handleGuildSelected(data)}
       {...rest}
     >
-      <GuildIcon />
+      <GuildIcon guildId={data.id} iconId={data.icon} />
 
       <View style={styles.content}>
         <View>
