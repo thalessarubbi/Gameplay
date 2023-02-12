@@ -19,7 +19,7 @@ export function GuildIcon({ guildId, iconId }: Props) {
       {
         iconId ?
           <Image
-            source={{ uri }}
+            source={{ uri: uri }}
             style={styles.image}
             resizeMode="cover"
           /> :
