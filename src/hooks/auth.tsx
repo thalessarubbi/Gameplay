@@ -3,10 +3,15 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import * as AuthSession from 'expo-auth-session'
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
 
-import { SCOPE, CLIENT_ID, CDN_IMAGE, REDIRECT_URI, RESPONSE_TYPE } from '../configs'
+const { SCOPE } = process.env
+const { CLIENT_ID} = process.env
+const { CDN_IMAGE } = process.env
+const { REDIRECT_URI } = process.env
+const { RESPONSE_TYPE} = process.env
 
 import { api } from "../services/api";
 import { COLLECTION_USERS } from '../configs/database'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type User = {
   id: string
@@ -21,6 +26,7 @@ type AuthContextData = {
   user: User
   loading: Boolean
   signIn: () => Promise<void>
+  signOut: () => Promise<void>
 }
 
 type AuthProviderProps = {
@@ -72,6 +78,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    setUser({} as User)
+    await AsyncStorage.removeItem(COLLECTION_USERS)
+  }
+
   async function loadUserStorageData() {
     const storage = await AsyncStorageLib.getItem(COLLECTION_USERS)
 
@@ -91,7 +102,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider value={{
       user,
       loading,
-      signIn
+      signIn,
+      signOut
     }}>
       {children}
     </AuthContext.Provider>
